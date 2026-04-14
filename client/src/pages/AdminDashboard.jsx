@@ -41,8 +41,8 @@ const AdminDashboard = () => {
   const filteredLeaves = leaves.filter((l) => {
     const matchStatus = filterMode === 'All' || l.status === filterMode;
     const matchSearch =
-      l.teacher_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      l.leave_type?.toLowerCase().includes(searchTerm.toLowerCase());
+      (l.teacher_name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (l.leave_type || '').toLowerCase().includes(searchTerm.toLowerCase());
     return matchStatus && matchSearch;
   });
 

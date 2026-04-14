@@ -18,7 +18,6 @@ const initDb = async () => {
         password VARCHAR(255) NOT NULL
       );
     `);
-
     await pool.query(`
       CREATE TABLE IF NOT EXISTS leaves (
         id SERIAL PRIMARY KEY,
@@ -32,8 +31,20 @@ const initDb = async () => {
         reason TEXT,
         status VARCHAR(20) DEFAULT 'Pending',
         approved_by INTEGER REFERENCES users(id),
-        comment TEXT
+        comment TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
+    `);
+      
+    // Attempt to add created_at column if it doesn't exist to existing table
+    await pool.query(`
+      DO $$
+      BEGIN
+          IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                         WHERE table_name='leaves' AND column_name='created_at') THEN
+              ALTER TABLE leaves ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+          END IF;
+      END $$;
     `);
 
     await pool.query(`
