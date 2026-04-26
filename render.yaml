@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: offtime-backend
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false

@@ -14,7 +14,8 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!user) return;
 
-    const newSocket = io('http://localhost:5000');
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+    const newSocket = io(API_BASE_URL);
 
     // Register user ID on connection
     newSocket.on('connect', () => {
